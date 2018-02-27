@@ -60,7 +60,7 @@ Change the database at the top right to `sumo` and run this query: `select * fro
 
 ### Chronograf
 
-Visualisations of InfluxDB are available using [chronograph](https://influxdata.com/time-series-platform/chronograf/), just visit [`http://localhost:10000`]
+Visualisations of InfluxDB are available using [chronograph](https://influxdata.com/time-series-platform/chronograf/), just visit `http://localhost:10000`
 
 ### Ideas
 
