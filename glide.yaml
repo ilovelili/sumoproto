@@ -1,0 +1,33 @@
+package: github.com/ilovelili/sumoproto
+import:
+- package: github.com/Sirupsen/logrus
+- package: github.com/micro/protobuf
+  subpackages:
+  - proto
+  - protoc-gen-go
+- package: github.com/micro/cli
+- package: github.com/micro/go-micro
+  subpackages:
+  - client
+  - cmd
+  - metadata
+  - server
+- package: github.com/micro/go-plugins
+  subpackages:
+  - broker/nats
+  - registry/nats
+  - transport/nats
+- package: github.com/micro/micro
+  subpackages:
+  - car
+- package: github.com/nats-io/nats
+- package: github.com/pusher-community/pusher-websocket-go
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: google.golang.org/grpc
+  subpackages:
+  - metadata
+- package: github.com/ilovelili/sumoproto
+  subpackages:
+  - github.com/serenize/snaker

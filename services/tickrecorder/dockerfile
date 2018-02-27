@@ -1,0 +1,11 @@
+FROM sumoproto:0.1
+
+LABEL maintainer="minju<route666@live.cn>"
+
+WORKDIR /go/src/github.com/ilovelili/sumoproto/services/tickrecorder
+
+COPY . /go/src/github.com/ilovelili/sumoproto
+
+RUN go install
+
+ENTRYPOINT ["tickrecorder"]

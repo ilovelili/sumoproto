@@ -1,0 +1,52 @@
+version: '2'
+services:
+  nats:
+    image: nats:0.8.0
+    ports:
+    - "4222:4222"
+    - "8222:8222"
+  ticksubscriber:
+    build:
+        dockerfile: ./services/ticksubscriber/dockerfile
+        context: ./
+    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
+    restart: always
+    depends_on:
+    - nats
+  tickrecorder:
+    build:
+      dockerfile: ./services/tickrecorder/dockerfile
+      context: ./
+    restart: always
+    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
+    depends_on:
+    - nats  
+  web:
+    build:
+      dockerfile: ./services/web/dockerfile
+      context: ./
+    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222 web
+    restart: always
+    ports:
+    - "8082:8082"
+    depends_on:
+    - nats  
+  telegraf:
+    build: ./services/telegraf/
+    depends_on:
+      - nats
+      - influx
+    restart: always
+  influx:
+    image: influxdb:0.13-alpine
+    ports:
+    - "8083:8083"
+    - "8086:8086"
+    depends_on:
+    - nats
+  chronograf:
+    image: chronograf:0.13
+    environment:
+      - CHRONOGRAF_BIND=0.0.0.0:10000
+    ports:
+    - "10000:10000"

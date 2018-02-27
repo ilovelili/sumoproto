@@ -1,0 +1,42 @@
+hash: 3513b2b83ea241902e276db68be89c7f3d9d5d4cacac37792314d7c09dc5f4cb
+updated: 2018-02-27T21:22:24.225861583+09:00
+imports:
+- name: github.com/micro/cli
+  version: 3d2263bb092286dde294a31049c92665f8373820
+- name: github.com/micro/go-micro
+  version: d0d9582b81e3944edca78b1db6ed9619d0729cee
+  subpackages:
+  - client
+  - cmd
+  - metadata
+  - server
+- name: github.com/micro/go-plugins
+  version: e5c92c6c5986c6d07c44a309d061e7c377e4b5a4
+  subpackages:
+  - broker/nats
+  - registry/nats
+  - transport/nats
+- name: github.com/micro/micro
+  version: ea2135649dbbf486850b44b661cfccb1069992c8
+  subpackages:
+  - car
+- name: github.com/micro/protobuf
+  version: a14899f0b79a7222e8dacce6e60b5b1086351332
+  subpackages:
+  - proto
+  - protoc-gen-go
+- name: github.com/nats-io/nats
+  version: 45807e531de8720a18260ea6a352378677c21eab
+- name: github.com/pusher-community/pusher-websocket-go
+  version: d33b2ac886afad95e380123908bcb9c6c52459ae
+- name: github.com/Sirupsen/logrus
+  version: 8c0189d9f6bbf301e5d055d34268156b317016af
+- name: golang.org/x/net
+  version: cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb
+  subpackages:
+  - context
+- name: google.golang.org/grpc
+  version: a1de3b2bd6b8fd77f27fe5e1c30484ab7503e84d
+  subpackages:
+  - metadata
+testImports: []

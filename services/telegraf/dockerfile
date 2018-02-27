@@ -1,0 +1,5 @@
+FROM telegraf:0.13-alpine
+
+LABEL maintainer="minju<route666@live.cn>"
+
+COPY ./telegraf.conf /etc/telegraf/telegraf.conf
