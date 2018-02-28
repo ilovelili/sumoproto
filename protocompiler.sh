@@ -13,7 +13,7 @@ if [ "" = "$PKG_OK" ]; then
     sudo rm -r proto3 protoc-3.2.0-linux-x86_64.zip
 fi
 
-for i in `find "$(cd ..; pwd)" -name "*.proto"`; do
+for i in `find "$(cd services; pwd)" -name "*.proto"`; do
     echo "compiling protobuf..."
     protoc -I$GOPATH/src --go_out=plugins=micro:$GOPATH/src $i    
 done
