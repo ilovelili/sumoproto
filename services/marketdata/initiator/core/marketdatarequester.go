@@ -3,9 +3,9 @@ package core
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
-	marketdata "github.com/ilovelili/sumoproto/services/marketdata/shared"
 	"github.com/quickfixgo/enum"
 	"github.com/quickfixgo/field"
 	fix44mdr "github.com/quickfixgo/fix44/marketdatarequest"
@@ -60,7 +60,7 @@ func queryHeader(h header, settings *quickfix.Settings) {
 
 func queryMarketDataRequest(settings *quickfix.Settings) fix44mdr.MarketDataRequest {
 	request := fix44mdr.New(
-		field.NewMDReqID("EUR/USD"+marketdata.RandStringRunes(8)),
+		field.NewMDReqID("EUR/USD1" /* + time.Now().Format("20060102150405")*/),
 		field.NewSubscriptionRequestType(enum.SubscriptionRequestType_SNAPSHOT_PLUS_UPDATES),
 		// set 0 as tag 264
 		field.NewMarketDepth(0),
@@ -83,6 +83,12 @@ func queryMarketDataRequest(settings *quickfix.Settings) fix44mdr.MarketDataRequ
 	// set N as tag 266
 	request.SetAggregatedBook(false)
 
+	// set sending time
+	request.SetSendingTime(time.Now())
+
+	// currenex customized tag
+	SetNewAttributedPrices(request, false)
+
 	queryHeader(request.Header, settings)
 	return request
 }
@@ -98,6 +104,9 @@ func QueryMarketDataRequest(settings *quickfix.Settings) (err error) {
 	req := queryMarketDataRequest(settings)
 
 	fmt.Println("Sending request.")
+	fmt.Println("===============")
+	fmt.Println(strings.Replace(req.ToMessage().String(), "\x01", "  ", -1))
+	fmt.Println("===============")
 
 SendingWithRetry:
 	for i := 1; i <= 10; i++ {

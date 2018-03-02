@@ -59,6 +59,7 @@ func (c TradeClient) ToAdmin(msg *quickfix.Message, sessionID quickfix.SessionID
 		// this is important since username / password in plaintext is required by currenex
 		msg.Body.Set(field.NewUsername(config.UserName))
 		msg.Body.Set(field.NewPassword(config.Password))
+
 	}
 	return
 }
