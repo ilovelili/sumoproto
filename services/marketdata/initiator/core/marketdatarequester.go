@@ -87,7 +87,7 @@ func queryMarketDataRequest(settings *quickfix.Settings) fix44mdr.MarketDataRequ
 	request.SetSendingTime(time.Now())
 
 	// currenex customized tag
-	SetNewAttributedPrices(request, false)
+	SetNewAttributedPrices(request, true)
 
 	queryHeader(request.Header, settings)
 	return request
