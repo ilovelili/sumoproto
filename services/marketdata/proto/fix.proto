@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package invast.sumo.srv.CurrenexMarketData;;
+
+message Fix {
+    int32 fieldid = 1;
+    string value = 2;    
+    string name = 3;
+    string type = 4;
+    string decodedvalue = 5;    
+    int64 time = 6; 
+}

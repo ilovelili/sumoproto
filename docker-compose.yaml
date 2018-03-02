@@ -5,30 +5,20 @@ services:
     ports:
     - "4222:4222"
     - "8222:8222"
-  ticksubscriber:
+  publisher:
     build:
-        dockerfile: ./services/ticksubscriber/dockerfile
+        dockerfile: ./services/marketdata/pub/dockerfile
         context: ./
     command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
     restart: always
     depends_on:
     - nats
-  tickrecorder:
+  subscriber:
     build:
-      dockerfile: ./services/tickrecorder/dockerfile
-      context: ./
-    restart: always
+        dockerfile: ./services/marketdata/sub/dockerfile
+        context: ./
     command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
-    depends_on:
-    - nats  
-  web:
-    build:
-      dockerfile: ./services/web/dockerfile
-      context: ./
-    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222 web
     restart: always
-    ports:
-    - "8082:8082"
     depends_on:
     - nats  
   telegraf:

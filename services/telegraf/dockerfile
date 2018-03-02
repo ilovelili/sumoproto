@@ -1,5 +1,5 @@
 FROM telegraf:0.13-alpine
 
-LABEL maintainer="minju<route666@live.cn>"
+LABEL maintainer="min<min_ju@invastsec.jp>"
 
 COPY ./telegraf.conf /etc/telegraf/telegraf.conf

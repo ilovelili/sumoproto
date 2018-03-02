@@ -1,5 +1,5 @@
 FROM golang:1.10.0-alpine
-LABEL maintainer="minju<route666@live.cn>"
+LABEL maintainer="min<min_ju@invastsec.jp>"
 # add git
 RUN apk update && apk add git
 

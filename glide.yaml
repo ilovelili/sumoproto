@@ -21,6 +21,7 @@ import:
   subpackages:
   - car
 - package: github.com/nats-io/nats
+- package: github.com/nats-io/nats-top
 - package: github.com/pusher-community/pusher-websocket-go
 - package: golang.org/x/net
   subpackages:
@@ -28,6 +29,10 @@ import:
 - package: google.golang.org/grpc
   subpackages:
   - metadata
-- package: github.com/ilovelili/sumoproto
-  subpackages:
-  - github.com/serenize/snaker
+- package: github.com/tidwall/gjson
+- package: github.com/ilovelili/fixdecoder
+- package: github.com/shopspring/decimal
+- package: github.com/quickfixgo/quickfix
+- package: github.com/quickfixgo/enum
+- package: github.com/quickfixgo/field
+- package: github.com/quickfixgo/fix44

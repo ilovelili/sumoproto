@@ -1,0 +1,12 @@
+FROM sumoproto:0.1
+
+LABEL maintainer="min<min_ju@invastsec.jp>"
+
+WORKDIR /go/src/github.com/ilovelili/sumoproto/services/marketdata/subscriber
+
+COPY . /go/src/github.com/ilovelili/sumoproto
+
+# develop a new package from scratch
+RUN go install
+
+ENTRYPOINT ["subscriber"]
