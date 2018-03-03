@@ -7,14 +7,15 @@ import (
 	"path"
 
 	"github.com/ilovelili/sumoproto/services/marketdata/initiator/core"
-	"github.com/ilovelili/sumoproto/services/marketdata/shared"
+	marketdata "github.com/ilovelili/sumoproto/services/marketdata/shared"
 	"github.com/quickfixgo/enum"
 	"github.com/quickfixgo/field"
 	"github.com/quickfixgo/quickfix"
 )
 
 var (
-	config *marketdata.Config
+	config      *marketdata.Config
+	appSettings *quickfix.Settings
 )
 
 //TradeClient implements the quickfix.Application interface
@@ -34,6 +35,10 @@ func (c TradeClient) OnCreate(sessionID quickfix.SessionID) {
 // This is called when a connection has been established and the FIX logon process has completed with both parties exchanging valid logon messages.
 func (c TradeClient) OnLogon(sessionID quickfix.SessionID) {
 	fmt.Println("Logging on")
+	if err := core.QueryMarketDataRequest(appSettings); err != nil {
+		panic(err)
+	}
+
 	return
 }
 
@@ -41,7 +46,6 @@ func (c TradeClient) OnLogon(sessionID quickfix.SessionID) {
 // This could happen during a normal logout exchange or because of a forced termination or a loss of network connection.
 func (c TradeClient) OnLogout(sessionID quickfix.SessionID) {
 	fmt.Println("Logging out")
-	// error handling should be added here
 	return
 }
 
@@ -60,13 +64,25 @@ func (c TradeClient) ToAdmin(msg *quickfix.Message, sessionID quickfix.SessionID
 		msg.Body.Set(field.NewUsername(config.UserName))
 		msg.Body.Set(field.NewPassword(config.Password))
 
+		// manually set reset seq number flag to true
+		msg.Body.Set(field.NewResetSeqNumFlag(true))
+
+	} else if msg.IsMsgTypeOf(string(enum.MsgType_LOGOUT)) {
+		// manually set reset seq number flag to true
+		msg.Body.Set(field.NewResetSeqNumFlag(true))
 	}
+
 	return
 }
 
 // ToApp notifies you of application messages that you are being sent to a counterparty.
 // Notice that the Message is not const. This allows you to add fields before an application message before it is sent out.
 func (c TradeClient) ToApp(msg *quickfix.Message, sessionID quickfix.SessionID) (err error) {
+	fmt.Println()
+	fmt.Println("========================= Message To Currenex =========================")
+	fmt.Println(msg.String())
+	fmt.Println()
+
 	return
 }
 
@@ -75,6 +91,19 @@ func (c TradeClient) ToApp(msg *quickfix.Message, sessionID quickfix.SessionID) 
 // If, for example, your application is a sell-side OMS, this is where you will get your new order requests.
 // If you were a buy side, you would get your execution reports here.
 func (c TradeClient) FromApp(msg *quickfix.Message, sessionID quickfix.SessionID) (reject quickfix.MessageRejectError) {
+	fmt.Println("========================= Message From Currenex =========================")
+	fmt.Println()
+	fmt.Println(msg.String())
+	fmt.Println()
+
+	// Todo: handle snapshot here
+	if msg.IsMsgTypeOf(string(enum.MsgType_MARKET_DATA_SNAPSHOT_FULL_REFRESH)) {
+
+		fmt.Println("Received a full market data snapshot")
+	} else if msg.IsMsgTypeOf(string(enum.MsgType_MARKET_DATA_INCREMENTAL_REFRESH)) {
+		fmt.Println("Received an incremental market data update")
+	}
+
 	return
 }
 
@@ -99,11 +128,12 @@ func main() {
 		return
 	}
 
-	appSettings, err := quickfix.ParseSettings(cfg)
+	settings, err := quickfix.ParseSettings(cfg)
 	if err != nil {
 		fmt.Println("Error reading cfg,", err)
 		return
 	}
+	appSettings = settings
 
 	app := TradeClient{}
 
@@ -122,9 +152,6 @@ func main() {
 	}
 
 	initiator.Start()
-	if err = core.QueryMarketDataRequest(appSettings); err != nil {
-		panic(err)
-	}
 
 	interrupt := make(chan os.Signal)
 	signal.Notify(interrupt, os.Interrupt, os.Kill)

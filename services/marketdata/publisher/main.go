@@ -46,6 +46,7 @@ func (c TradeClient) OnLogout(sessionID quickfix.SessionID) {
 // FromAdmin notifies you when an administrative message is sent from a counterparty to your FIX engine.
 // This can be useful for doing extra validation on logon messages such as for checking passwords.
 func (c TradeClient) FromAdmin(msg *quickfix.Message, sessionID quickfix.SessionID) (reject quickfix.MessageRejectError) {
+	fmt.Println("from admin", msg.String())
 	return
 }
 
@@ -53,6 +54,8 @@ func (c TradeClient) FromAdmin(msg *quickfix.Message, sessionID quickfix.Session
 // This is normally not useful for an application however it is provided for any logging you may wish to do.
 // Notice that the Message is not const. This allows you to add fields before an administrative message is sent out.
 func (c TradeClient) ToAdmin(msg *quickfix.Message, sessionID quickfix.SessionID) {
+	fmt.Println("to admin", msg.String())
+
 	if msg.IsMsgTypeOf(string(enum.MsgType_LOGON)) {
 		// this is important since username / password in plaintext is required by currenex
 		msg.Body.Set(field.NewUsername(config.UserName))
@@ -64,6 +67,8 @@ func (c TradeClient) ToAdmin(msg *quickfix.Message, sessionID quickfix.SessionID
 // ToApp notifies you of application messages that you are being sent to a counterparty.
 // Notice that the Message is not const. This allows you to add fields before an application message before it is sent out.
 func (c TradeClient) ToApp(msg *quickfix.Message, sessionID quickfix.SessionID) (err error) {
+	fmt.Println("To app", msg.String())
+
 	return
 }
 
@@ -72,6 +77,8 @@ func (c TradeClient) ToApp(msg *quickfix.Message, sessionID quickfix.SessionID) 
 // If, for example, your application is a sell-side OMS, this is where you will get your new order requests.
 // If you were a buy side, you would get your execution reports here.
 func (c TradeClient) FromApp(msg *quickfix.Message, sessionID quickfix.SessionID) (reject quickfix.MessageRejectError) {
+	fmt.Println("from app", msg.String())
+
 	return
 }
 

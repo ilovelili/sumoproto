@@ -3,7 +3,6 @@ package core
 import (
 	"errors"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/quickfixgo/enum"
@@ -60,9 +59,9 @@ func queryHeader(h header, settings *quickfix.Settings) {
 
 func queryMarketDataRequest(settings *quickfix.Settings) fix44mdr.MarketDataRequest {
 	request := fix44mdr.New(
-		field.NewMDReqID("EUR/USD1" /* + time.Now().Format("20060102150405")*/),
+		field.NewMDReqID("EUR/USD"+time.Now().Format("20060102150405")),
 		field.NewSubscriptionRequestType(enum.SubscriptionRequestType_SNAPSHOT_PLUS_UPDATES),
-		// set 0 as tag 264
+		// set 0 as tag 264 (full book)
 		field.NewMarketDepth(0),
 	)
 
@@ -102,11 +101,6 @@ func QueryMarketDataRequest(settings *quickfix.Settings) (err error) {
 
 	fmt.Println("Protocol Version: ", beginstring)
 	req := queryMarketDataRequest(settings)
-
-	fmt.Println("Sending request.")
-	fmt.Println("===============")
-	fmt.Println(strings.Replace(req.ToMessage().String(), "\x01", "  ", -1))
-	fmt.Println("===============")
 
 SendingWithRetry:
 	for i := 1; i <= 10; i++ {
