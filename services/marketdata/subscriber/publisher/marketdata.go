@@ -3,6 +3,7 @@ package publisher
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	proto "github.com/ilovelili/sumoproto/services/marketdata/proto"
 	nats "github.com/nats-io/nats"
@@ -14,28 +15,24 @@ const (
 
 // PublishMarketData sends out single Fix data to telegraf to save to InfluxDB
 func PublishMarketData(f *proto.Fix) {
-	tag := f.Fieldid
-	value := f.Value
-	name := f.Name
-	decodedvalue := resolveDecodedValue(f.Decodedvalue)
-	time := f.Time
-
 	nc, err := nats.Connect(natshost)
 	if err != nil {
 		log.Println(err)
 	}
 	defer nc.Close()
 
-	msg := fmt.Sprintf(`marketdata,tag=%d name="%s",value="%s",decodedvalue="%s" %d`, tag, name, value, decodedvalue, time)
+	sanitizedMsg := sanitizeFIXMessage(f.Msg)
+	msg := fmt.Sprintf(`marketdata,type=rawmsg, message="%s" %d`, sanitizedMsg, f.Time)
+	// msg := fmt.Sprintf(`marketdata,tag=%d name="%s",value="%s",decodedvalue="%s" %d`, tag, name, value, decodedvalue, time)
 	if err := nc.Publish("invast.sumo.srv.telegraf", []byte(msg)); err != nil {
 		log.Println(err)
 	}
 }
 
-func resolveDecodedValue(decodedvalue string) string {
-	if decodedvalue == "" {
-		return "NA"
-	}
-
-	return decodedvalue
+// sanitizeFIXMessage escape the json to see if it works
+func sanitizeFIXMessage(decodeFixMsg string) string {
+	replacer := strings.NewReplacer("\"", "", ":", " is ", "\n", "  ", "{", "|", "}", "|", ",", "")
+	result := replacer.Replace(decodeFixMsg)
+	fmt.Println("FIX message sanitized: ", result)
+	return result
 }

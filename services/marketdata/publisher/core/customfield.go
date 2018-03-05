@@ -5,6 +5,9 @@ import (
 	"github.com/quickfixgo/quickfix"
 )
 
+// CustomeFieldDataRequest alias of MarketDataRequest
+type CustomeFieldDataRequest marketdatarequest.MarketDataRequest
+
 //AttributedPricesField is a custom field provided by currenex
 type AttributedPricesField struct{ quickfix.FIXBoolean }
 
@@ -22,6 +25,6 @@ func NewAttributedPrices(val bool) AttributedPricesField {
 }
 
 // SetNewAttributedPrices set NewAttributedPrices
-func SetNewAttributedPrices(m marketdatarequest.MarketDataRequest, v bool) {
-	m.Set(NewAttributedPrices(v))
+func (r CustomeFieldDataRequest) SetNewAttributedPrices(v bool) {
+	r.Set(NewAttributedPrices(v))
 }

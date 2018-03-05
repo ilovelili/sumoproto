@@ -1,5 +1,5 @@
-hash: 3c40278cf9d7f794266df3b676f366d639dd43686ab1a16b066f999a1a056c4a
-updated: 2018-03-02T19:50:49.471022919+09:00
+hash: 15b35ef3599660f9fac8e0c1135d0d51743d415e6ce3056b48d7b42ca4774992
+updated: 2018-03-05T14:49:41.3947241+09:00
 imports:
 - name: github.com/armon/go-metrics
   version: 783273d703149aaeb9897cf58613d5af48861c25
@@ -37,7 +37,7 @@ imports:
 - name: github.com/micro/go-log
   version: cbfa9447f9b655f8e66583237e51f40ca9bff860
 - name: github.com/micro/go-micro
-  version: d0d9582b81e3944edca78b1db6ed9619d0729cee
+  version: 13f8e4fef7f4971805a78126a1b2d9d757462642
   subpackages:
   - broker
   - broker/codec
@@ -88,7 +88,7 @@ imports:
   - proto
   - protoc-gen-go
 - name: github.com/miekg/dns
-  version: 906238edc6eb0ddface4a1923f6d41ef2a5ca59b
+  version: 4d25966dce20f4d309cc5d540c38d55349074697
 - name: github.com/mitchellh/go-homedir
   version: b8bc1bf767474819792c23f32d8286a45736f1c6
 - name: github.com/mitchellh/hashstructure
@@ -96,12 +96,12 @@ imports:
 - name: github.com/mitchellh/mapstructure
   version: 00c29f56e2386353d58c599509e8dc3801b0d716
 - name: github.com/nats-io/go-nats
-  version: 0718c1ca33e1241468625341ef25b317b08341cd
+  version: fbd8504c9afaddaa5d16f256470af85260d31512
   subpackages:
   - encoders/builtin
   - util
 - name: github.com/nats-io/nats
-  version: 45807e531de8720a18260ea6a352378677c21eab
+  version: fbd8504c9afaddaa5d16f256470af85260d31512
 - name: github.com/nats-io/nats-top
   version: 1c2a6920a922e64d3ba1f1ddca4db33e4ed24231
 - name: github.com/nats-io/nuid
@@ -129,11 +129,13 @@ imports:
 - name: github.com/quickfixgo/tag
   version: cbb4657605213a387c5ec1534192671a92c825c3
 - name: github.com/shopspring/decimal
-  version: 69b3a8ad1f5f2c8bd855cb6506d18593064a346b
+  version: e3482495ff4cba75613e4177ed79825c890058a9
 - name: github.com/Sirupsen/logrus
-  version: 8c0189d9f6bbf301e5d055d34268156b317016af
+  version: f4ee69125072b22721efbe639bd0da9c9d19b8cc
 - name: github.com/tidwall/gjson
-  version: 9ed3f8e1a5d67a79157423b8d6f448d42b907f36
+  version: 01f00f129617a6fe98941fb920d6c760241b54d2
+- name: github.com/tidwall/match
+  version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: golang.org/x/crypto
   version: 91a49db82a88618983a78a06c1cbd4e00ab749ab
   subpackages:
@@ -150,12 +152,12 @@ imports:
   - ipv4
   - ipv6
 - name: golang.org/x/sys
-  version: dd2ff4accc098aceecb86b36eaa7829b2a17b1c9
+  version: f6cff0780e542efa0c8e864dc8fa522808f6a598
   subpackages:
   - unix
   - windows
 - name: google.golang.org/grpc
-  version: a1de3b2bd6b8fd77f27fe5e1c30484ab7503e84d
+  version: f0a1202acdc5c4702be05098d5ff8e9b3b444442
   subpackages:
   - metadata
 testImports: []

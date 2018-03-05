@@ -1,12 +1,10 @@
-package log
+package core
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/ilovelili/fixdecoder"
-	"github.com/ilovelili/sumoproto/services/marketdata/pub/publisher"
 	"github.com/micro/go-micro/cmd"
 	"github.com/micro/go-micro/metadata"
 	"github.com/quickfixgo/quickfix"
@@ -37,17 +35,7 @@ func (p marketDataLog) OnIncoming(msg []byte) {
 		"X-User-Id": "marketdatapublisher",
 	})
 
-	// Todo: parse necessay data from raw and publish it (like tick). So actually this loop is not needed
-	for _, fixdataline := range fix {
-		// filter out incremental market data
-		if fixdataline.Decoded {
-			wg.Add(1)
-			fmt.Printf("Publishing %v\n", fixdataline)
-			go publisher.PublishMarketData(ctx, fixdataline)
-		}
-	}
-
-	wg.Wait()
+	PublishMarketData(ctx, fix)
 }
 
 func (p marketDataLog) OnOutgoing(msg []byte) {

@@ -7,7 +7,7 @@ services:
     - "8222:8222"
   publisher:
     build:
-        dockerfile: ./services/marketdata/pub/dockerfile
+        dockerfile: ./services/marketdata/publisher/dockerfile
         context: ./
     command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
     restart: always
@@ -15,7 +15,7 @@ services:
     - nats
   subscriber:
     build:
-        dockerfile: ./services/marketdata/sub/dockerfile
+        dockerfile: ./services/marketdata/subscriber/dockerfile
         context: ./
     command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
     restart: always

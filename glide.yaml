@@ -29,6 +29,7 @@ import:
 - package: google.golang.org/grpc
   subpackages:
   - metadata
+- package: github.com/tidwall/match
 - package: github.com/tidwall/gjson
 - package: github.com/ilovelili/fixdecoder
 - package: github.com/shopspring/decimal
