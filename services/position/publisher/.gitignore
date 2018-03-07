@@ -1,0 +1,6 @@
+debug
+tmp
+simplefilestore.json
+
+# exe just for local run
+*.exe
