@@ -36,6 +36,16 @@ services:
     command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
     restart: always
     depends_on:
+    - nats
+  web:
+    build:
+      dockerfile: ./services/web/dockerfile
+      context: ./
+    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222 web
+    restart: always
+    ports:
+    - "8082:8082"
+    depends_on:
     - nats  
   telegraf:
     build: ./services/telegraf/

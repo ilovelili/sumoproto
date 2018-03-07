@@ -4,7 +4,7 @@ import:
 - package: github.com/micro/protobuf
   subpackages:
   - proto
-  - protoc-gen-go
+  - protoc-gen-go  
 - package: github.com/micro/cli
 - package: github.com/micro/go-micro
   subpackages:
@@ -20,6 +20,9 @@ import:
 - package: github.com/micro/micro
   subpackages:
   - car
+  - web
+  - cli
+  - api
 - package: github.com/nats-io/nats
 - package: github.com/nats-io/nats-top
 - package: github.com/pusher-community/pusher-websocket-go

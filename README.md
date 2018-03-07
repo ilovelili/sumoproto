@@ -4,13 +4,11 @@ sumo prototype - Microservices with NATS message bus
 
 ![architecture](architecture.png)
 
-This repo is a complete demo of using [Micro](https://github.com/micro/micro) and [NATS](https://nats.io).
-
-## Installation
 
 ### Dependencies
 
 - [Go 1.10](https://golang.org/)
+- [Micro](https://micro.mu/)
 - [Glide](https://glide.sh/)
 - [NATS](http://nats.io/)
 - [Docker](https://www.docker.com/)
@@ -18,11 +16,7 @@ This repo is a complete demo of using [Micro](https://github.com/micro/micro) an
 ### Spinup
 
 ```bash
-go get -d github.com/ilovelili/sumoproto/...
-cd $GOPATH/src/github.com/ilovelili/sumoproto
-glide install
-docker build -t sumoprpto:0.1 .
-docker-compose build && docker-compose up
+run.sh
 ```
 
 ## Usage
@@ -30,9 +24,10 @@ docker-compose build && docker-compose up
 In its current state, the swarm will:
 
 - Subscribe to the Broker Gateway
-- Pull out USDJPY ticker data
+- Pull out market data
+- Pull out position data
 - Publish onto the NATS queue
-- Be received by the tickRecorder service
+- Be received by the subscriber services
 - Write the data point into InfluxDB
 
 ### Micro Web Console
@@ -56,7 +51,7 @@ nats-top
 ### InfluxDB
 
 Web console: `http://localhost:8083`
-Change the database at the top right to `sumo` and run this query: `select * from tick`
+Change the database at the top right to `sumo` and run this query: `select * from marketdata` or `select * from position`
 
 ### Chronograf
 
@@ -64,7 +59,7 @@ Visualisations of InfluxDB are available using [chronograph](https://influxdata.
 
 ### Ideas
 
-- A service that writes into Aerospike instead of InfluxDB
+- A service that writes into Cassandra instead of InfluxDB
 - A service that opens and closes trades for you
 - A service that pulls historical data from InfluxDB in a defined time resolution
 - Using go-micro's sidecar to allow writing algorithms in any language
