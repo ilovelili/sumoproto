@@ -7,15 +7,15 @@ import (
 	"path"
 	"time"
 
-	"github.com/ilovelili/sumoproto/services/marketdata/publisher/core"
-	marketdata "github.com/ilovelili/sumoproto/services/marketdata/shared"
+	"github.com/ilovelili/sumoproto/services/position/publisher/core"
+	position "github.com/ilovelili/sumoproto/services/position/shared"
 	"github.com/quickfixgo/enum"
 	"github.com/quickfixgo/field"
 	"github.com/quickfixgo/quickfix"
 )
 
 var (
-	config      *marketdata.Config
+	config      *position.Config
 	appSettings *quickfix.Settings
 )
 
@@ -36,7 +36,7 @@ func (c TradeClient) OnCreate(sessionID quickfix.SessionID) {
 // This is called when a connection has been established and the FIX logon process has completed with both parties exchanging valid logon messages.
 func (c TradeClient) OnLogon(sessionID quickfix.SessionID) {
 	fmt.Println("Logging on")
-	if err := core.QueryMarketDataRequest(appSettings); err != nil {
+	if err := core.QueryPositionRequest(appSettings); err != nil {
 		panic(err)
 	}
 
@@ -66,7 +66,6 @@ func (c TradeClient) ToAdmin(msg *quickfix.Message, sessionID quickfix.SessionID
 		// this is important since username / password in plaintext is required by currenex
 		msg.Body.Set(field.NewUsername(config.UserName))
 		msg.Body.Set(field.NewPassword(config.Password))
-
 		// manually set reset seq number flag to true
 		msg.Body.Set(field.NewResetSeqNumFlag(true))
 	} else if msg.IsMsgTypeOf(string(enum.MsgType_LOGOUT)) {
@@ -109,7 +108,7 @@ func (c TradeClient) FromApp(msg *quickfix.Message, sessionID quickfix.SessionID
 }
 
 func init() {
-	if conf, err := marketdata.GetConfig(); err != nil {
+	if conf, err := position.GetConfig(); err != nil {
 		// failed to get config.
 		panic(err)
 	} else {
@@ -142,9 +141,9 @@ func main() {
 	// logFactory, _ := quickfix.NewFileLogFactory(appSettings)
 
 	// message broker
-	logFactory := core.NewMarketDataLogFactory()
+	logFactory := core.NewPositionLogFactory()
 
-	storeFactory := marketdata.NewSimpleFileStoreFactory()
+	storeFactory := position.NewSimpleFileStoreFactory()
 
 	initiator, err := quickfix.NewInitiator(app, storeFactory, appSettings, logFactory)
 	if err != nil {

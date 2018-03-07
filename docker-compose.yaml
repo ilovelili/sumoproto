@@ -5,7 +5,7 @@ services:
     ports:
     - "4222:4222"
     - "8222:8222"
-  publisher:
+  marketdatapublisher:
     build:
         dockerfile: ./services/marketdata/publisher/dockerfile
         context: ./
@@ -13,9 +13,25 @@ services:
     restart: always
     depends_on:
     - nats
-  subscriber:
+  marketdatasubscriber:
     build:
         dockerfile: ./services/marketdata/subscriber/dockerfile
+        context: ./
+    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
+    restart: always
+    depends_on:
+    - nats  
+  positionpublisher:
+    build:
+        dockerfile: ./services/position/publisher/dockerfile
+        context: ./
+    command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
+    restart: always
+    depends_on:
+    - nats
+  positionsubscriber:
+    build:
+        dockerfile: ./services/position/subscriber/dockerfile
         context: ./
     command: --broker nats --registry nats --transport nats --broker_address nats:4222 --registry_address nats:4222 --transport_address nats:4222
     restart: always

@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	proto "github.com/ilovelili/sumoproto/services/marketdata/proto"
+	proto "github.com/ilovelili/sumoproto/services/position/proto"
 	nats "github.com/nats-io/nats"
 )
 
@@ -13,8 +13,8 @@ const (
 	natshost = "nats://nats:4222"
 )
 
-// PublishMarketData sends out single Fix data to telegraf to save to InfluxDB
-func PublishMarketData(f *proto.Fix) {
+// PublishPosition sends out single Fix data to telegraf to save to InfluxDB
+func PublishPosition(f *proto.Fix) {
 	nc, err := nats.Connect(natshost)
 	if err != nil {
 		log.Println(err)
@@ -22,8 +22,7 @@ func PublishMarketData(f *proto.Fix) {
 	defer nc.Close()
 
 	santized := sanitizeFIXMessage(f.Msg)
-	msg := fmt.Sprintf(`marketdata message="%s" %d`, santized, f.Time)
-	// msg := fmt.Sprintf(`marketdata,tag=%d name="%s",value="%s",decodedvalue="%s" %d`, tag, name, value, decodedvalue, time)
+	msg := fmt.Sprintf(`position message="%s" %d`, santized, f.Time)
 	if err := nc.Publish("invast.sumo.srv.telegraf", []byte(msg)); err != nil {
 		log.Println(err)
 	}
@@ -31,7 +30,7 @@ func PublishMarketData(f *proto.Fix) {
 
 // sanitizeFIXMessage escape the json to see if it works
 func sanitizeFIXMessage(decodeFixMsg string) string {
-	replacer := strings.NewReplacer("\"", "" /*"\n", "  ",*/, ",", "|")
+	replacer := strings.NewReplacer("\"", "", ",", "|")
 	result := replacer.Replace(decodeFixMsg)
 	fmt.Println("FIX message sanitized: ", result)
 	return result

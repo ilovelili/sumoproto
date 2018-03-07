@@ -3,14 +3,14 @@ LABEL maintainer="min<min_ju@invastsec.jp>"
 # add git
 RUN apk update && apk add git
 
-RUN echo "Installing Go dependencies ... "
+# Installing Go dependencies
 RUN go get github.com/Masterminds/glide
-RUN go get github.com/golang/protobuf/{proto,protoc-gen-go}
 
-RUN echo "Copying files ... "
-COPY . /go/src/github.com/ilovelili/sumoproto
+ENV SRC_DIR=/go/src/github.com/ilovelili/sumoproto
+WORKDIR $SRC_DIR
 
-WORKDIR /go/src/github.com/ilovelili/sumoproto
+# Copying files
+COPY . $SRC_DIR
 
-RUN echo "Running glide ... "
+# Running glide
 RUN glide up

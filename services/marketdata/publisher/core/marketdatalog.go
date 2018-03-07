@@ -2,7 +2,6 @@ package core
 
 import (
 	"context"
-	"sync"
 
 	"github.com/ilovelili/fixdecoder"
 	"github.com/micro/go-micro/cmd"
@@ -16,7 +15,6 @@ import (
 
 var (
 	fd *fixdecoder.FixDecoder
-	wg sync.WaitGroup
 )
 
 func init() {
@@ -28,9 +26,8 @@ type marketDataLog struct {
 	title string
 }
 
-func (p marketDataLog) OnIncoming(msg []byte) {
+func (l marketDataLog) OnIncoming(msg []byte) {
 	fix := fd.Decode(string(msg))
-
 	ctx := metadata.NewContext(context.Background(), map[string]string{
 		"X-User-Id": "marketdatapublisher",
 	})
@@ -38,16 +35,14 @@ func (p marketDataLog) OnIncoming(msg []byte) {
 	PublishMarketData(ctx, fix)
 }
 
-func (p marketDataLog) OnOutgoing(msg []byte) {
-	// TBD
+func (l marketDataLog) OnOutgoing(msg []byte) {
 }
 
-func (p marketDataLog) OnEvent(msg string) {
-	// TBD
+func (l marketDataLog) OnEvent(msg string) {
+	// Maybe we can add some event watcher here
 }
 
-func (p marketDataLog) OnEventf(format string, v ...interface{}) {
-	// TBD
+func (l marketDataLog) OnEventf(format string, v ...interface{}) {
 }
 
 type marketDataLogFactory struct{}

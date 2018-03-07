@@ -7,7 +7,7 @@ import (
 
 	"github.com/quickfixgo/enum"
 	"github.com/quickfixgo/field"
-	fix44mdr "github.com/quickfixgo/fix44/marketdatarequest"
+	fix44rfp "github.com/quickfixgo/fix44/requestforpositions"
 	"github.com/quickfixgo/quickfix"
 	"github.com/quickfixgo/quickfix/config"
 )
@@ -24,7 +24,7 @@ func getSettings(key string, setting *quickfix.Settings) (value string, err erro
 	return
 }
 
-func getSenderCompID(settings *quickfix.Settings) field.SenderCompIDField {
+func getSenderCompID(settings *quickfix.Settings) string {
 	if senderCompID, err := getSettings(config.SenderCompID, settings); err != nil {
 		panic(err)
 	} else {
@@ -32,11 +32,11 @@ func getSenderCompID(settings *quickfix.Settings) field.SenderCompIDField {
 			panic(errors.New("Oops no SenderCompID found"))
 		}
 
-		return field.NewSenderCompID(senderCompID)
+		return senderCompID
 	}
 }
 
-func getTargetCompID(settings *quickfix.Settings) field.TargetCompIDField {
+func getTargetCompID(settings *quickfix.Settings) string {
 	if targetCompID, err := getSettings(config.TargetCompID, settings); err != nil {
 		panic(err)
 	} else {
@@ -44,7 +44,7 @@ func getTargetCompID(settings *quickfix.Settings) field.TargetCompIDField {
 			panic(errors.New("Oops no TargetCompID found"))
 		}
 
-		return field.NewTargetCompID(targetCompID)
+		return targetCompID
 	}
 }
 
@@ -53,53 +53,44 @@ type header interface {
 }
 
 func queryHeader(h header, settings *quickfix.Settings) {
-	h.Set(getSenderCompID(settings))
-	h.Set(getTargetCompID(settings))
+	h.Set(field.NewSenderCompID(getSenderCompID(settings)))
+	h.Set(field.NewTargetCompID(getTargetCompID(settings)))
 }
 
-func queryMarketDataRequest(settings *quickfix.Settings) fix44mdr.MarketDataRequest {
-	request := fix44mdr.New(
-		field.NewMDReqID("EUR/USD"+time.Now().Format("20060102150405")),
-		field.NewSubscriptionRequestType(enum.SubscriptionRequestType_SNAPSHOT_PLUS_UPDATES),
-		// set 0 as tag 264 (full book)
-		field.NewMarketDepth(0),
+func queryPositionRequest(settings *quickfix.Settings) fix44rfp.RequestForPositions {
+	request := fix44rfp.New(
+		field.NewPosReqID("POS"+time.Now().Format("20060102150405")),
+		field.NewPosReqType(enum.PosReqType_POSITIONS),
+		field.NewAccount(getSenderCompID(settings)),
+		field.NewAccountType(enum.AccountType_ACCOUNT_IS_CARRIED_ON_CUSTOMER_SIDE_OF_THE_BOOKS),
+		field.NewClearingBusinessDate(time.Now().Format("20060102")),
+		field.NewTransactTime(time.Now()),
 	)
 
-	// set 0 & 1 as tag 269
-	entryTypes := fix44mdr.NewNoMDEntryTypesRepeatingGroup()
-	entryTypes.Add().SetMDEntryType(enum.MDEntryType_BID)
-	entryTypes.Add().SetMDEntryType(enum.MDEntryType_OFFER)
-	request.SetNoMDEntryTypes(entryTypes)
+	noPartyIDs := fix44rfp.NewNoPartyIDsRepeatingGroup()
+	noPartyIDs.Add().SetPartyID(getSenderCompID(settings))
+	noPartyIDs.Add().SetPartyRole(enum.PartyRole_CLIENT_ID)
+	request.SetNoPartyIDs(noPartyIDs)
+	// this line is important. Otherwise CNX will send IncorrectGroupNo error resposne
+	request.Set(field.NewNoPartyIDs(1))
 
-	relatedSym := fix44mdr.NewNoRelatedSymRepeatingGroup()
-	relatedSym.Add().SetSymbol("EUR/USD")
-	request.SetNoRelatedSym(relatedSym)
-
-	// set 1 as tag 265
-	request.SetMDUpdateType(enum.MDUpdateType_INCREMENTAL_REFRESH)
-
-	// set N as tag 266
-	request.SetAggregatedBook(false)
-
+	request.SetSubscriptionRequestType(enum.SubscriptionRequestType_SNAPSHOT_PLUS_UPDATES)
 	// set sending time
 	request.SetSendingTime(time.Now())
-
-	// currenex customized tag
-	CustomeFieldDataRequest(request).SetNewAttributedPrices(true)
 
 	queryHeader(request.Header, settings)
 	return request
 }
 
-// QueryMarketDataRequest Market data req
-func QueryMarketDataRequest(settings *quickfix.Settings) (err error) {
+// QueryPositionRequest position data req
+func QueryPositionRequest(settings *quickfix.Settings) (err error) {
 	beginstring, err := getSettings(config.BeginString, settings)
 	if err != nil {
 		return err
 	}
 
 	fmt.Println("Protocol Version: ", beginstring)
-	req := queryMarketDataRequest(settings)
+	req := queryPositionRequest(settings)
 
 SendingWithRetry:
 	for i := 1; i <= 10; i++ {

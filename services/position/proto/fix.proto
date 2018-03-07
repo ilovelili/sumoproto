@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package invast.sumo.srv.CurrenexMarketData;
+package invast.sumo.srv.CurrenexExecutionReport;
 
 message Fix {    
     string msg = 1;

@@ -1,5 +1,5 @@
 hash: 15b35ef3599660f9fac8e0c1135d0d51743d415e6ce3056b48d7b42ca4774992
-updated: 2018-03-05T14:49:41.3947241+09:00
+updated: 2018-03-06T11:46:14.3863235+09:00
 imports:
 - name: github.com/armon/go-metrics
   version: 783273d703149aaeb9897cf58613d5af48861c25
@@ -12,7 +12,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 4605d4ed0b647d2d40e95577c1155c72be5ba95f
+  version: 257ad520f281250a30e8726f329bc88f172624e3
   subpackages:
   - api
   - watch
@@ -31,13 +31,13 @@ imports:
   subpackages:
   - coordinate
 - name: github.com/ilovelili/fixdecoder
-  version: d01c6de2cffb793222a7f57e2811f6569d76d595
+  version: 36b411900b885148c83bfdffb441f4d8728e1cbb
 - name: github.com/micro/cli
   version: 3d2263bb092286dde294a31049c92665f8373820
 - name: github.com/micro/go-log
   version: cbfa9447f9b655f8e66583237e51f40ca9bff860
 - name: github.com/micro/go-micro
-  version: 13f8e4fef7f4971805a78126a1b2d9d757462642
+  version: 6246fa2bcb781619ab295df972a65f092124a8df
   subpackages:
   - broker
   - broker/codec
@@ -63,7 +63,7 @@ imports:
   - transport/codec/json
   - transport/http
 - name: github.com/micro/go-plugins
-  version: e5c92c6c5986c6d07c44a309d061e7c377e4b5a4
+  version: 146b5ea4a2542936c31bdc98cb44fe8d9ea15ce9
   subpackages:
   - broker/nats
   - registry/nats
@@ -73,11 +73,11 @@ imports:
 - name: github.com/micro/mdns
   version: cdf30746f9f70dc7a366d3d885792a092fd83102
 - name: github.com/micro/micro
-  version: ea2135649dbbf486850b44b661cfccb1069992c8
+  version: 406377748866cf577bdacc1a8bc3f1b641f24246
   subpackages:
   - car
 - name: github.com/micro/misc
-  version: 92560176a0866e3584c13e7ff7d4747c5bf793f7
+  version: 7c73dd51fc3d72219cd448163ebf27ed856fe262
   subpackages:
   - lib/addr
   - lib/net
@@ -88,7 +88,7 @@ imports:
   - proto
   - protoc-gen-go
 - name: github.com/miekg/dns
-  version: 4d25966dce20f4d309cc5d540c38d55349074697
+  version: 906238edc6eb0ddface4a1923f6d41ef2a5ca59b
 - name: github.com/mitchellh/go-homedir
   version: b8bc1bf767474819792c23f32d8286a45736f1c6
 - name: github.com/mitchellh/hashstructure
@@ -96,12 +96,12 @@ imports:
 - name: github.com/mitchellh/mapstructure
   version: 00c29f56e2386353d58c599509e8dc3801b0d716
 - name: github.com/nats-io/go-nats
-  version: fbd8504c9afaddaa5d16f256470af85260d31512
+  version: bfca8afbfcc12e4e1642de90b1d2f6d5758c7717
   subpackages:
   - encoders/builtin
   - util
 - name: github.com/nats-io/nats
-  version: fbd8504c9afaddaa5d16f256470af85260d31512
+  version: bfca8afbfcc12e4e1642de90b1d2f6d5758c7717
 - name: github.com/nats-io/nats-top
   version: 1c2a6920a922e64d3ba1f1ddca4db33e4ed24231
 - name: github.com/nats-io/nuid
@@ -129,11 +129,11 @@ imports:
 - name: github.com/quickfixgo/tag
   version: cbb4657605213a387c5ec1534192671a92c825c3
 - name: github.com/shopspring/decimal
-  version: e3482495ff4cba75613e4177ed79825c890058a9
+  version: 69b3a8ad1f5f2c8bd855cb6506d18593064a346b
 - name: github.com/Sirupsen/logrus
   version: f4ee69125072b22721efbe639bd0da9c9d19b8cc
 - name: github.com/tidwall/gjson
-  version: 01f00f129617a6fe98941fb920d6c760241b54d2
+  version: 9ed3f8e1a5d67a79157423b8d6f448d42b907f36
 - name: github.com/tidwall/match
   version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: golang.org/x/crypto
@@ -143,7 +143,7 @@ imports:
   - ed25519/internal/edwards25519
   - ssh/terminal
 - name: golang.org/x/net
-  version: cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb
+  version: 22ae77b79946ea320088417e4d50825671d82d57
   subpackages:
   - bpf
   - context
@@ -152,12 +152,12 @@ imports:
   - ipv4
   - ipv6
 - name: golang.org/x/sys
-  version: f6cff0780e542efa0c8e864dc8fa522808f6a598
+  version: dd2ff4accc098aceecb86b36eaa7829b2a17b1c9
   subpackages:
   - unix
   - windows
 - name: google.golang.org/grpc
-  version: f0a1202acdc5c4702be05098d5ff8e9b3b444442
+  version: 7c5299d71e2b8d403195f6071eecea690bf5622a
   subpackages:
   - metadata
 testImports: []

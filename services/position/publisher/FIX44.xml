@@ -3059,7 +3059,6 @@
     <field name='MDEntryType' required='N' />
     <field name='MDEntryID' required='N' />
     <field name='MDEntryRefID' required='N' />
-    <field name='MDEntryRefID' required='N' />
     <component name='Instrument' required='N' />
     <component name='UndInstrmtGrp' required='N' />
     <component name='InstrmtLegGrp' required='N' />
