@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yaml convert
+    kompose.version: 1.10.0 (8bb0907)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: influx
+  name: influx
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: influx
+    spec:
+      containers:
+      - image: influxdb:0.13-alpine
+        name: influx
+        ports:
+        - containerPort: 8083
+        - containerPort: 8086
+        resources: {}
+      restartPolicy: Always
+status: {}

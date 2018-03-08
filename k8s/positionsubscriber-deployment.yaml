@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yaml convert
+    kompose.version: 1.10.0 (8bb0907)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: positionsubscriber
+  name: positionsubscriber
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: positionsubscriber
+    spec:
+      containers:
+      - args:
+        - --broker
+        - nats
+        - --registry
+        - nats
+        - --transport
+        - nats
+        - --broker_address
+        - nats:4222
+        - --registry_address
+        - nats:4222
+        - --transport_address
+        - nats:4222
+        image: positionsubscriber
+        name: positionsubscriber
+        resources: {}
+      restartPolicy: Always
+status: {}
