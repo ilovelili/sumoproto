@@ -10,6 +10,10 @@ import (
 
 	proto "github.com/ilovelili/sumoproto/services/position/proto"
 	position "github.com/ilovelili/sumoproto/services/position/shared"
+
+	_ "github.com/micro/go-plugins/broker/nats"
+	_ "github.com/micro/go-plugins/registry/nats"
+	_ "github.com/micro/go-plugins/transport/nats"
 )
 
 // PublishPosition publish market data got frm fix engine and decoded by fix decoder

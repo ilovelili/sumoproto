@@ -22,10 +22,6 @@ func opts(o *micro.Options) {
 	})
 }
 
-func handle() {
-	log.Println("Marketdata received")
-}
-
 func main() {
 	cmd.Init()
 	log.Println("Starting up marketdata subscriber...")
@@ -39,6 +35,7 @@ func main() {
 		log.Println(add.Network()+":", add.String())
 	}
 	s := micro.NewService(opts)
+
 	if err = s.Server().Subscribe(
 		server.NewSubscriber(
 			marketdata.MarketDataServiceName,

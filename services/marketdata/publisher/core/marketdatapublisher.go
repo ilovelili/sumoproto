@@ -10,6 +10,10 @@ import (
 
 	proto "github.com/ilovelili/sumoproto/services/marketdata/proto"
 	marketdata "github.com/ilovelili/sumoproto/services/marketdata/shared"
+
+	_ "github.com/micro/go-plugins/broker/nats"
+	_ "github.com/micro/go-plugins/registry/nats"
+	_ "github.com/micro/go-plugins/transport/nats"
 )
 
 // PublishMarketData publish market data got frm fix engine and decoded by fix decoder. Subscriber/main.go handles service discovery

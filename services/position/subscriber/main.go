@@ -22,10 +22,6 @@ func opts(o *micro.Options) {
 	})
 }
 
-func handle() {
-	log.Println("Position received")
-}
-
 func main() {
 	cmd.Init()
 	log.Println("Starting up position subscriber...")
